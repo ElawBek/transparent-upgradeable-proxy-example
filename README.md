@@ -1,4 +1,4 @@
-# Example of a minimal proxy clone
+# Example of a Transparent upgradeable proxy
 
 This is an implementation for [Transparent upgradeable proxy](https://docs.openzeppelin.com/contracts/4.x/api/proxy#TransparentUpgradeableProxy)
 
