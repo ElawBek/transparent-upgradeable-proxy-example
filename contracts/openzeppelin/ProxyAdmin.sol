@@ -7,6 +7,8 @@ import "./TransparentUpgradeableProxy.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
+ * || Just copied from Openzeppelin ||
+ *
  * @dev This is an auxiliary contract meant to be assigned as the admin of a {TransparentUpgradeableProxy}. For an
  * explanation of why you would want to use this see the documentation for {TransparentUpgradeableProxy}.
  */

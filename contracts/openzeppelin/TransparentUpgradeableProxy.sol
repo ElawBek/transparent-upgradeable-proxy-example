@@ -6,6 +6,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 /**
+ * || Just copied from Openzeppelin ||
+ *
  * @dev This contract implements a proxy that is upgradeable by an admin.
  *
  * To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector

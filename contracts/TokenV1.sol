@@ -7,17 +7,31 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20Burnable
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
+/**
+ * @title TokenV1
+ * @author Dmitry K. (@elawbek)
+ *
+ * @dev version 1 of the token implementation for the transparent-upgradeable proxy example
+ */
 contract TokenV1 is
   Initializable,
   ERC20Upgradeable,
   ERC20BurnableUpgradeable,
   OwnableUpgradeable
 {
-  /// @custom:oz-upgrades-unsafe-allow constructor
+  /**
+   * @dev disable the `initialize` function for the origin contract
+   * @custom:oz-upgrades-unsafe-allow constructor
+   */
   constructor() {
     _disableInitializers();
   }
 
+  /**
+   * @notice initialize contract: set name and symbol for the token
+   *
+   * @dev this function is executed only once, as a constructor (for a proxy)
+   */
   function initialize(string calldata _name, string calldata _symbol)
     external
     initializer

@@ -85,12 +85,13 @@ describe("Transparent upgradeable proxy", function () {
     });
 
     describe("Change implementation", () => {
+      let tokenV2Impl: TokenV2;
       beforeEach(async () => {
         // some actions with proxy
         await tokenV1.mint(owner.address, parseEther("1000"));
         await tokenV1.mint(alice.address, parseEther("1000"));
 
-        const tokenV2Impl = await new TokenV2__factory(owner).deploy();
+        tokenV2Impl = await new TokenV2__factory(owner).deploy();
         const data = tokenV2Impl.interface.encodeFunctionData("permitInit");
 
         await proxyAdmin.upgradeAndCall(
@@ -149,6 +150,8 @@ describe("Transparent upgradeable proxy", function () {
           await tokenV2.balanceOf(owner.address),
           await tokenV2.balanceOf(alice.address),
         ]).to.deep.eq([parseEther("1500"), parseEther("500")]);
+
+        await tokenV2Impl.initialize("token", "TSASKD");
       });
     });
   });
