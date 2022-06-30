@@ -19,7 +19,7 @@ npm install
 
 # Deployment
 
-localhost:
+localhost: (comment out the "verify:verify")
 
 ```shell
 npx hardhat node
