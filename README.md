@@ -1,4 +1,4 @@
-# Example of a minimal proxy clone
+# Example of a Transparent upgradeable proxy
 
 This is an implementation for [Transparent upgradeable proxy](https://docs.openzeppelin.com/contracts/4.x/api/proxy#TransparentUpgradeableProxy)
 
@@ -7,31 +7,31 @@ This is an implementation for [Transparent upgradeable proxy](https://docs.openz
 1. Clone tis repo:
 
 ```shell
-git clone https://github.com/ElawBek/transparent-updgradeable-proxy-example.git
+git clone https://github.com/ElawBek/transparent-upgradeable-proxy-example.git
 ```
 
 2. Install NPM packages:
 
 ```shell
-cd minimal-proxy-clones
+cd transparent-upgradeable-proxy-example
 npm install
 ```
 
 # Deployment
 
-localhost:
+localhost: (comment out the "verify:verify")
 
 ```shell
 npx hardhat node
-npx hardhat run scripts/deployV1.js
-npx hardhat run scripts/deployV2.js
+npx hardhat run scripts/deployV1.ts
+npx hardhat run scripts/deployV2.ts
 ```
 
 custom network (testnets/mainnets):
 
 ```shell
-npx hardhat run scripts/deployV1.js --network yourNetwork
-npx hardhat run scripts/deployV2.js --network yourNetwork
+npx hardhat run scripts/deployV1.ts --network yourNetwork
+npx hardhat run scripts/deployV2.ts --network yourNetwork
 ```
 
 ## How the scripts works
