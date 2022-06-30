@@ -7,13 +7,13 @@ This is an implementation for [Transparent upgradeable proxy](https://docs.openz
 1. Clone tis repo:
 
 ```shell
-git clone https://github.com/ElawBek/transparent-updgradeable-proxy-example.git
+git clone https://github.com/ElawBek/transparent-upgradeable-proxy-example.git
 ```
 
 2. Install NPM packages:
 
 ```shell
-cd minimal-proxy-clones
+cd transparent-upgradeable-proxy-example
 npm install
 ```
 
