@@ -23,15 +23,15 @@ localhost: (comment out the "verify:verify")
 
 ```shell
 npx hardhat node
-npx hardhat run scripts/deployV1.js
-npx hardhat run scripts/deployV2.js
+npx hardhat run scripts/deployV1.ts
+npx hardhat run scripts/deployV2.ts
 ```
 
 custom network (testnets/mainnets):
 
 ```shell
-npx hardhat run scripts/deployV1.js --network yourNetwork
-npx hardhat run scripts/deployV2.js --network yourNetwork
+npx hardhat run scripts/deployV1.ts --network yourNetwork
+npx hardhat run scripts/deployV2.ts --network yourNetwork
 ```
 
 ## How the scripts works
