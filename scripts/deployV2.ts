@@ -1,11 +1,6 @@
 import { ethers, run } from "hardhat";
-import { parseEther } from "ethers/lib/utils";
 
-import {
-  TokenV2__factory,
-  ProxyAdmin__factory,
-  TransparentUpgradeableProxy__factory,
-} from "../typechain-types";
+import { TokenV2__factory, ProxyAdmin__factory } from "../typechain-types";
 
 const ADMIN_ADDRESS = "";
 const PROXY_ADDRESS = "";

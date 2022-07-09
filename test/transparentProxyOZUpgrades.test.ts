@@ -1,40 +1,22 @@
 import { expect } from "chai";
-import { ethers, upgrades } from "hardhat";
+import { upgrades } from "hardhat";
 
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
+import {
+  deployFixture,
+  changeImplementationFixture,
+} from "./helpers/fixturesOZUpgrades";
+
 import { parseEther } from "ethers/lib/utils";
+import { constants } from "ethers";
 
 import { signERC2612Permit } from "eth-permit";
 
-import {
-  TokenV1,
-  TokenV1__factory,
-  TokenV2,
-  TokenV2__factory,
-} from "../typechain-types";
-import { constants } from "ethers";
-
 describe("Transparent upgradeable proxy", function () {
-  let owner: SignerWithAddress;
-  let alice: SignerWithAddress;
-
-  let tokenV1: TokenV1;
-  let tokenV2: TokenV2;
-
-  beforeEach(async () => {
-    [owner, alice] = await ethers.getSigners();
-
-    const TokenV1ImplFactory = new TokenV1__factory(owner);
-
-    tokenV1 = (await upgrades.deployProxy(
-      TokenV1ImplFactory,
-      ["TokenName", "TKN"],
-      { initializer: "initialize", kind: "transparent" }
-    )) as TokenV1;
-  });
-
   describe("Deployment", () => {
     it("Admin state", async () => {
+      const { tokenV1, owner } = await loadFixture(deployFixture);
+
       // This is the keccak-256 hash of "eip1967.proxy.admin" subtracted by 1
       const adminAddress = await upgrades.erc1967.getAdminAddress(
         tokenV1.address
@@ -57,6 +39,8 @@ describe("Transparent upgradeable proxy", function () {
     });
 
     it("Proxy state", async () => {
+      const { owner, tokenV1 } = await loadFixture(deployFixture);
+
       expect([
         await tokenV1.name(), // proxy token name
         await tokenV1.symbol(), // proxy token symbol
@@ -65,22 +49,17 @@ describe("Transparent upgradeable proxy", function () {
     });
 
     describe("Origin contract", () => {
-      let originImpl: TokenV1;
-
-      beforeEach(async () => {
-        const tokenV1ImplAddress =
-          await upgrades.erc1967.getImplementationAddress(tokenV1.address);
-
-        originImpl = new TokenV1__factory(owner).attach(tokenV1ImplAddress);
-      });
-
       it("Should be an error when trying to initialize the origin contract", async () => {
+        const { originImpl } = await loadFixture(deployFixture);
+
         await expect(
           originImpl.initialize("OriginRevert", "RVT")
         ).to.revertedWith("Initializable: contract is already initialized");
       });
 
       it("Origin implementation's state", async () => {
+        const { originImpl } = await loadFixture(deployFixture);
+
         expect([
           await originImpl.name(), // origin name
           await originImpl.symbol(), // origin symbol
@@ -90,20 +69,11 @@ describe("Transparent upgradeable proxy", function () {
     });
 
     describe("Change implementation", () => {
-      beforeEach(async () => {
-        // some actions with proxy
-        await tokenV1.mint(owner.address, parseEther("1000"));
-        await tokenV1.mint(alice.address, parseEther("1000"));
-
-        const ImplFactory = new TokenV2__factory(owner);
-
-        tokenV2 = (await upgrades.upgradeProxy(tokenV1.address, ImplFactory, {
-          call: "permitInit",
-          kind: "transparent",
-        })) as TokenV2;
-      });
-
       it("State after upgrade", async () => {
+        const { tokenV2, alice, owner } = await loadFixture(
+          changeImplementationFixture
+        );
+
         expect([
           await tokenV2.name(), // token name
           await tokenV2.symbol(), // token symbol
@@ -122,6 +92,10 @@ describe("Transparent upgradeable proxy", function () {
       });
 
       it("New methods with V2", async () => {
+        const { tokenV2, alice, owner } = await loadFixture(
+          changeImplementationFixture
+        );
+
         const signature = await signERC2612Permit(
           alice,
           tokenV2.address,
