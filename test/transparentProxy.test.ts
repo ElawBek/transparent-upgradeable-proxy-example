@@ -68,7 +68,7 @@ describe("Transparent upgradeable proxy", function () {
       });
 
       describe("Version 2", () => {
-        let data: any;
+        let data: string;
 
         beforeEach(async () => {
           implV2 = await new TokenV2__factory(owner).deploy();
